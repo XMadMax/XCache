@@ -53,4 +53,19 @@ Include the XCacheDriver.php in your main php file.
 ```php
 require_once __DIR__.'/externalLibs/XCache/XCacheDriver.php';
 ```
+## Use
+### Cache output of a block of code
+You can cache all the output of a block of code, the cacheID can be the REQUEST_URI by default, or you can assing your own cacheID:
 
+Previous example code :
+```php
+$app = new Bootstrap();
+$app->init();
+```
+
+Modified code:
+```php
+require_once __DIR__.'/../libs/XCache/libs/XCache.php';
+$
+$app = new Bootstrap();
+$app->init();
