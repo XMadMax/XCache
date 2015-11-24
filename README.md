@@ -13,7 +13,7 @@ XCache comes with this drivers:
 ## Install
 
 ### Composer
-Adit your base composer.json, and add: 
+Edit your base composer.json, and add: 
 ```php
     "require": {
         "xcache/xcache": "dev-master"
@@ -41,3 +41,16 @@ Adit your base composer.json, and add:
         }
     ]    
 ```
+Update composer:
+```sh
+$ composer update
+```
+
+### Include manually
+Copy all the files to a local dir (in this example, externalLibs).
+
+Include the XCacheDriver.php in your main php file.
+```php
+require_once __DIR__.'/../../externalLibs/XCacheDriver.php';
+```
+
