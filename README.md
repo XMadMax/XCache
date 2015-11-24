@@ -47,10 +47,10 @@ $ composer update
 ```
 
 ### Include manually
-Copy all the files to a local dir (in this example, externalLibs).
+Copy all the files to a local dir (in this example, externalLibs/XCache).
 
 Include the XCacheDriver.php in your main php file.
 ```php
-require_once __DIR__.'/../../externalLibs/XCacheDriver.php';
+require_once __DIR__.'/externalLibs/XCache/XCacheDriver.php';
 ```
 
