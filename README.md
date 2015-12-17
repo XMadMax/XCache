@@ -18,12 +18,13 @@ XCache comes with this drivers:
 Edit your base composer.json, and add: 
 ```php
 {
-    "autoload": {
+  "autoload": {
         "psr-0": {
             "XCache": "vendor/xcache/xcache/lib/",
             "XCacheDriver": "vendor/xcache/xcache/XCacheDriver.php"
         }
-    }
+  }
+}
 ```
 
 Update composer:
