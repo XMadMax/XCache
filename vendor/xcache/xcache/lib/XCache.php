@@ -599,8 +599,8 @@ class XCache
      */
     static public function logMessage($type, $msg, $populate = '', $exception = '')
     {
-        if (function_exists('log_message'))
-            log_message($type, $msg);
+        if (function_exists('logMessage'))
+            logMessage($type, $msg);
         if ($populate == 'die')
             die("$type: $msg");
         if ($populate == 'exception' && $exception != '')

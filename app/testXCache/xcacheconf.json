@@ -3,7 +3,7 @@
     "cache_driver": "file",
     "cache_hosts": {
         "file" : {
-            "path": "cache/",
+            "path": "/var/xcache/",
             "options": false,
             "compress": true
         },
@@ -51,7 +51,9 @@
             "^testXCache_test": 30,
             "^testXCache_other": 45
         },
-        "testXCache__test1": 60,
+        "TestDriver_currentTime": 10,
+        "TestDriver_testOne": 120,
+        "testXCache_test1": 60,
         "testXCache_myMethod": 18
     },
     "cache_values": {

@@ -93,7 +93,7 @@ class XCache_file extends XCache implements XCache_interface
             self::logMessage('debug', "Cache file $type - $name has expired. File deleted: " . $filepath);
             if (count($item_properties) > 1) {
                 foreach (explode('|', $item_properties[2]) as $key => $val) {
-                    foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator(dirname($filepath))) as $filename => $objFile) {
+                    foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(dirname($filepath))) as $filename => $objFile) {
                         $val = str_replace('[ID]', $ID, $val);
                         $regexp = '/^' . trim($val) . '/';
                         if (preg_match($regexp, $objFile->getFileName())) {
@@ -111,8 +111,7 @@ class XCache_file extends XCache implements XCache_interface
         if ($onlyCheck)
             return TRUE;
         $cache = str_replace($match['0'], '', $cache);
-        if (function_exists('profiler_log'))
-            profiler_log('CACHE', 'Cache Read OK : ' . $type . '/' . $name . '/' . $ID);
+        self::logMessage('debug', 'Cache Read OK : ' . $type . '/' . $name . '/' . $ID);
 
         try {
             if ($this->compress == TRUE)
@@ -122,6 +121,7 @@ class XCache_file extends XCache implements XCache_interface
         } catch (Exception $e) {
             return false;
         }
+        
         return $output;
     }
 
