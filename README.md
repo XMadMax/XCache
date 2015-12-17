@@ -42,6 +42,15 @@ include_once "../../vendor/autoload.php"
 
 ```
 
+### How it works ?
+XCache can cache :
+  - Any single value (a key/value pair)
+  - Automatic cache for any method (can call any method in the class, uses a trait)
+  - Cache a whole PHP code (en entire index.php, bootstrap, etc) by URL. Each URI can have it's own cache TTL 
+  - Cache only those values that are defined
+  - Cache the TTL defined for each value
+  - 
+
 ### Include manually
 Copy all the files to a local dir (in this example, externalLibs/XCache).
 
