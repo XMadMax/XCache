@@ -36,9 +36,9 @@ class XCache
 		$filepath = XCACHE_CONFPATH;
 
 	if (isset($_SERVER['REQUEST_URI']))
-		$this->resquestURI = $_SERVER['REQUEST_URI'];
+		$this->requestURI = $_SERVER['REQUEST_URI'];
 	else
-		$this->resquestURI = $_SERVER['argv'][0];
+		$this->requestURI = $_SERVER['argv'][0];
 		
         $this->getCacheConfigFile($filepath); 
         $this->enabled = $this->getCacheConfigItem('cache_enabled');
@@ -250,7 +250,7 @@ class XCache
      */
     public function getCacheItemExpiration($type, $name, $originalID)
     {
-        $expirations = $this->getCacheConfigItem($name, $type);
+        $expirations = $this->getCacheConfigItem($name, $type); 
         if (is_numeric($expirations) && $expirations > 0) {
             return $expirations;
         }
@@ -436,8 +436,9 @@ class XCache
      */
     public function enableCache($type = 'cache_pages', $name = 'regexp', $ID = '')
     {
-        if ($this->getCacheConfigItem('cache_enabled') == FALSE)
+        if ($this->getCacheIsAvailable() === FALSE) {
             return FALSE;
+        }
 
         $this->cache_type = $type;
         $this->cache_name = $name;
@@ -569,7 +570,7 @@ class XCache
      * @param array $methodParams
      * @return var
      */
-    public function cache($type, $name, $ID, $objectorvalue, $method = '', $methodParams = '')
+    public function cache($type, $name, $ID, $objectorvalue='', $method = '', $methodParams = '')
     {
         $this->getXCInstance();
         if (($cachedata = $this->readCache($type, $name, $ID)) === false) {
@@ -583,10 +584,11 @@ class XCache
             } else {
                 $cachedata = $objectorvalue;
             }
-
-            $this->writeCache($type, $name, $ID, $cachedata);
+            
+            if ($objectorvalue)
+                $this->writeCache($type, $name, $ID, $cachedata);
         }
-        return ($cachedata);
+        return $cachedata;
     }
 
     /**

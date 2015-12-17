@@ -36,10 +36,10 @@
     },
     "cache_logged_cookie": "islogged",
     "cache_only_not_logged_pages": false,
-    "cache_get": false,
+    "cache_get": true,
     "cache_post": false,
     "cache_pages": {
-        "default": 0,
+        "default": 100,
         "regexp": {
             "^/$": 600,
             "testAllPageCache": 600

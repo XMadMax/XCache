@@ -58,14 +58,14 @@ showresults('TEST2','test2');
 showresults('TEST3','mytest');
 showresults('TEST4','othertest');
 
-/** Examples for xCacheCache, set & get a value from cache **/
+/** Examples for xCacheValue, set & get a value from cache **/
 echo HTMLCODE_HR."Cache a value width default TTL".HTMLCODE_BR;
 $testClass = new testXCache();
-echo $testClass->xCacheCache("cache_values","myTestValue",md5('myTestValue'),'Current date is '.date('Y-m-d H:i:s'));
+echo $testClass->xCacheValue("cache_values","myTestValue",md5('myTestValue'),'Current date is '.date('Y-m-d H:i:s'));
 
 echo HTMLCODE_HR."Cache another value width regexp TTL".HTMLCODE_BR;
 $testClass = new testXCache();
-echo $testClass->xCacheCache("cache_values","varTest",md5('varTest'),'Current date is '.date('Y-m-d H:i:s'));
+echo $testClass->xCacheValue("cache_values","varTest",md5('varTest'),'Current date is '.date('Y-m-d H:i:s'));
 
 /** Examples for xCacheMethod, set & get a result from and existing method, passing parameters **/
 echo HTMLCODE_HR."Cache a current method".HTMLCODE_BR;
@@ -74,7 +74,10 @@ $params = array('value1','value2');
 echo $testClass->xCacheMethod("cache_methods","testXCache_myMethod",md5('testXCache_myMethod'.json_encode($params)),$testClass,'myMethod',$params);
 
 echo HTMLCODE_HR;
+echo "Retrieve a previous saved value.".HTMLCODE_BR;
+echo $testClass->xCacheValue("cache_values","varTest",md5('varTest'));
+
+echo HTMLCODE_HR;
 echo "Change options in your app / [appname] /xcacheconf.php to see how it works.".HTMLCODE_BR;
 echo "See app / [appname] / testXCache.php to understand how it works.";
-echo HTMLCODE_HR;
 

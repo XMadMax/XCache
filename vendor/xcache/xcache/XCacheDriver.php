@@ -24,7 +24,7 @@ trait XCacheDriver
                     $confPath = XCACHE_CONFPATH;
                 }
                 else {
-                    $rc = new ReflectionClass(get_class($this));
+                    $rc = new \ReflectionClass(get_class($this));
                     $confPath = dirname($rc->getFileName());
                 }
             }
@@ -41,7 +41,7 @@ trait XCacheDriver
         return $this->xcacheClass->cache($type, $name, $ID, $class, $method, $methodParams);
     }
 
-    public function xCacheCache($type, $name, $ID, $value)
+    public function xCacheValue($type, $name, $ID, $value='')
     {
         if (is_null($this->xcacheClass)) {
             $this->xcachePass();
