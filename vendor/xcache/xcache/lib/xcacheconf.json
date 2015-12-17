@@ -1,0 +1,46 @@
+{
+    "cache_enabled": false,
+    "cache_driver": "file",
+    "cache_hosts": {
+        "file" : {
+            "path": "",
+            "options": false,
+            "compress": true
+        },
+        "memcache" : {
+            "host": "127.0.0.1:11211",
+            "options": false,
+            "compress": true
+        },
+        "mongodb" : {
+            "host": "127.0.0.1:27017",
+            "options": false,
+            "compress": true
+        },
+        "redis" : {
+            "host": "127.0.0.1:6379",
+            "options": {
+                "OPT_PREFIX" : "MyPrefix"
+            },
+            "compress": true
+        }
+    },
+    "cache_logged_cookie": "islogged",
+    "cache_only_not_logged_pages": false,
+    "cache_get": true,
+    "cache_post": true,
+    
+    "cache_pages": {
+        "default": false,
+        "regexp": {
+            "'^/$'": 30
+        }
+    },
+    "cache_methods": {
+        "default": 5,
+        "regexp": {
+            "^test_": 10
+        },
+        "test_test": 15
+    }
+}

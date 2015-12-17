@@ -1,0 +1,63 @@
+{
+    "cache_enabled": true,
+    "cache_driver": "file",
+    "cache_hosts": {
+        "file" : {
+            "path": "cache/",
+            "options": false,
+            "compress": true
+        },
+        "memcache" : {
+            "host": "127.0.0.1:11211",
+            "options": false,
+            "compress": true
+        },
+        "memcached" : {
+            "host": "127.0.0.1:11211",
+            "options": {
+                "OPT_PREFIX" : "mytest"
+            },
+            "compress": true
+        },
+        "mongodb" : {
+            "host": "127.0.0.1:27017:::cachedb:cachecollection",
+            "options": {
+                "OPT_PREFIX" : "mytest"
+            },
+            "compress": true
+        },
+        "redis" : {
+            "host": "127.0.0.1:6379",
+            "options": {
+                "OPT_PREFIX" : "mytest"
+            },
+            "compress": true
+        }
+    },
+    "cache_logged_cookie": "islogged",
+    "cache_only_not_logged_pages": false,
+    "cache_get": false,
+    "cache_post": false,
+    "cache_pages": {
+        "default": 0,
+        "regexp": {
+            "^/$": 600,
+            "testAllPageCache": 600
+        }
+    },
+    "cache_methods": {
+        "default": 15,
+        "regexp": {
+            "^testXCache_test": 30,
+            "^testXCache_other": 45
+        },
+        "testXCache__test1": 60,
+        "testXCache_myMethod": 18
+    },
+    "cache_values": {
+        "default": 15,
+        "regexp": {
+            "^varTest$": 30
+        }
+    }
+}

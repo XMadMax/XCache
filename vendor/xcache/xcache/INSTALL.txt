@@ -1,0 +1,54 @@
+Copy xcache/xcache to your vendor directory.
+
+Launch composer update.
+
+Add the launcher trait below ypur class definition.
+
+class [myClass] {
+    use XCacheDriver:
+}
+
+Add a definition on top of your app, where you want to place your xcacheconf.json file: 
+define("XCACHE_CONFPATH",[DIRECTORY]); 
+
+Any method that you want to be cached must to add a '_' before the name:
+
+Before:
+
+public function myMethod($params)
+
+Width XCache:
+
+public function _myMethod($params)
+
+
+In the code that you call myClass->myMethod :
+
+Before:
+
+$result = $myClass->myMethod($params);
+
+With XCache:
+
+$result = $myClass->cache()->myMethod($params);
+
+Modify the config file xcacheconf.json to detect your class/method:
+
+    "cache_methods": {
+        "default": 15,
+        "regexp": {
+            "^myClassName_": 60
+        },
+        "myClassName_myOtherMethod": 300
+    }
+
+In the example above, all methods from myClassName that are called with ->cache()-> and have been renamed with '_' as first character,  will have a cache of 60 seconds, 
+except myOtherMethod, that will have a cache of 300 seconds.
+
+If you want to change the config file, then:
+
+$result = $myClass->xCachePass(ABSOLUTE DIR FOR CONFIG FILE)->myMethod($params);
+
+Example:
+    $result = $myClass->xCachePass('/var/www/myproject/config/')->myMethod($params);
+
