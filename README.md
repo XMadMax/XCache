@@ -8,8 +8,7 @@ XCache comes with this drivers:
   - Files
   - Memcache
   - Memcached
-  - apc
-  - xcache
+  - Apc
   - Redis
   
 ## Install

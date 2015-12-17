@@ -1,11 +1,19 @@
 {
     "cache_enabled": true,
-    "cache_driver": "file",
+    "cache_driver": "xcache",
     "cache_hosts": {
         "file" : {
             "path": "/var/xcache/",
             "options": false,
             "compress": true
+        },
+        "apc" : {
+            "options": false,
+            "compress": false
+        },
+        "xcache" : {
+            "options": false,
+            "compress": false
         },
         "memcache" : {
             "host": "127.0.0.1:11211",

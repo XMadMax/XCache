@@ -185,7 +185,7 @@ class XCache_xcache extends XCache implements XCache_interface
      * getInstance
      * 
      */
-    private function getInstance()
+    public function getInstance()
     {
         return $this;
     }
