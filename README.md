@@ -17,6 +17,7 @@ XCache comes with this drivers:
 ### Composer
 Edit your base composer.json, and add: 
 ```php
+{
     "autoload": {
         "psr-0": {
             "XCache": "vendor/xcache/xcache/lib/",
