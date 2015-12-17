@@ -17,35 +17,27 @@ XCache comes with this drivers:
 ### Composer
 Edit your base composer.json, and add: 
 ```php
-    "require": {
-        "xcache/xcache": "dev-master"
-    },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "xcache/xcache",
-                "version": "dev-master",
-                "dist": {
-                    "url": "https://github.com/XMadMax/XCache.git",
-                    "type": "git"
-                }
-            },
-            "autoload": {
-                "classmap": [""],
-                "psr-4": {
-                    "XCache\\XCache\\": ""
-                },
-                "psr-0": {
-                    "XCache\\XCache\\": ""
-                }
-            }        
+    "autoload": {
+        "psr-0": {
+            "XCache": "vendor/xcache/xcache/lib/",
+            "XCacheDriver": "vendor/xcache/xcache/XCacheDriver.php"
         }
-    ]    
+    }
 ```
+
 Update composer:
 ```sh
 $ composer update
+```
+
+Now, you can include XCache with composer autoload in any of your php files:
+```php
+
+// First of all, define the xcacheconf configuration location
+define("XCACHE_CONFPATH",__DIR__)
+// Include composer autoload
+include_once "../../vendor/autoload.php"
+
 ```
 
 ### Include manually
