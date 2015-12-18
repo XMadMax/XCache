@@ -11,8 +11,8 @@
     },
     "autoload": {
         "psr-0": {
-            "XCache": "vendor/xcache/xcache/lib/",
-            "XCacheDriver": "vendor/xcache/xcache/XCacheDriver.php"
+            "XCache": "lib/",
+            "XCacheDriver": "XCacheDriver.php"
         },
         "psr-4": {
             "XCache\\": "lib/",
