@@ -8,7 +8,7 @@ define("HTMLCODE_HR",php_sapi_name()=='cli'?"\n---------------------------------
 
 
 // Include composer autoload
-include_once "../../../vendor/autoload.php";
+include_once "../../../../../vendor/autoload.php";
 
     $XCache = new XCache();
     $XCache->setCacheHeaders();

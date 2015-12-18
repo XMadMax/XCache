@@ -5,7 +5,7 @@ define("XCACHE_CONFPATH",__DIR__);
 define("HTMLCODE_BR",php_sapi_name()=='cli'?"\n":"<br>"); 
 define("HTMLCODE_HR",php_sapi_name()=='cli'?"\n----------------------------------------------------------\n":"<hr>"); 
 
-require_once '../../../vendor/autoload.php';
+require_once '../../../../../vendor/autoload.php';
 
 function logMessage($type,$msg)
 {
