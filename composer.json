@@ -1,11 +1,11 @@
 {
     "name": "xmadmax/xcache",
-    "description": "Multi purpose cache",
+    "description": "XCache, a multi purpose cache",
     "keywords": ["cache", "xcache"],
     "license": "MIT",
     "type": "git",
     "require": {
-        "php": ">=5.4.12"
+        "php": ">=5.4.*"
     },
     "require-dev": {
     },
