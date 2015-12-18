@@ -1,11 +1,19 @@
 {
     "cache_enabled": true,
-    "cache_driver": "mongodb",
+    "cache_driver": "file",
     "cache_hosts": {
         "file" : {
-            "path": "E:/Temp/XCache/",
+            "path": "/var/xcache/",
             "options": false,
             "compress": true
+        },
+        "apc" : {
+            "options": false,
+            "compress": false
+        },
+        "xcache" : {
+            "options": false,
+            "compress": false
         },
         "memcache" : {
             "host": "127.0.0.1:11211",
@@ -15,46 +23,46 @@
         "memcached" : {
             "host": "127.0.0.1:11211",
             "options": {
-                "OPT_PREFIX" : "fpsoeloc"
+                "OPT_PREFIX" : "mytest"
             },
             "compress": true
         },
         "mongodb" : {
-            "host": "192.168.1.34:27017:::dbname:collection",
+            "host": "127.0.0.1:27017:::cachedb:cachecollection",
             "options": {
-                "OPT_PREFIX" : "fpsoeloc"
+                "OPT_PREFIX" : "mytest"
             },
             "compress": true
         },
         "redis" : {
-            "host": "192.168.1.23:6379",
+            "host": "127.0.0.1:6379",
             "options": {
-                "OPT_PREFIX" : "fpsoeloc"
+                "OPT_PREFIX" : "mytest"
             },
             "compress": true
         }
     },
     "cache_logged_cookie": "islogged",
     "cache_only_not_logged_pages": false,
-    "cache_get": false,
+    "cache_get": true,
     "cache_post": false,
     "cache_pages": {
-        "default": 0,
+        "default": 100,
         "regexp": {
-            "^/$": ["portada",600],
-            "^/nuestros-sabores/": 600,
-            "^/la-mesa-viajera": 600,
-            "^/toda-una-vida-contigo": 10
+            "^/$": 600,
+            "testAllPageCache": 600
         }
     },
     "cache_methods": {
         "default": 15,
         "regexp": {
-            "^xcachetest_test": 30,
-            "^xcachetest_other": 45
+            "^testXCache_test": 30,
+            "^testXCache_other": 45
         },
-        "xcachetest_test1": 60,
-        "xcachetest_myMethod": 18
+        "TestDriver_currentTime": 10,
+        "TestDriver_testOne": 120,
+        "testXCache_test1": 60,
+        "testXCache_myMethod": 18
     },
     "cache_values": {
         "default": 15,

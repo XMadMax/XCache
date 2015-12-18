@@ -1,8 +1,11 @@
 {
-    "autoload": {
-        "psr-0": {
-            "XCache": "vendor/xcache/xcache/lib/",
-            "XCacheDriver": "vendor/xcache/xcache/XCacheDriver.php"
+    "require": {
+        "xmadmax/xcache": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/XMadMax/XCache/tree/master"
         }
-    }
+    ]
 }
