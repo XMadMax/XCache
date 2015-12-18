@@ -11,8 +11,7 @@
     },
     "autoload": {
         "psr-0": {
-            "XCacheDriver\\": "XCacheDriver.php",
-            "XCache\\": "lib/"
+            "XCache": "lib/"
         }
     },
     "autoload-dev": {
