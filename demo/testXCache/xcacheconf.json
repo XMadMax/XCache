@@ -23,21 +23,21 @@
         "memcached" : {
             "host": "127.0.0.1:11211",
             "options": {
-                "OPT_PREFIX" : "mytest"
+                "OPT_PREFIX" : "xcache"
             },
             "compress": true
         },
         "mongodb" : {
             "host": "127.0.0.1:27017:::cachedb:cachecollection",
             "options": {
-                "OPT_PREFIX" : "mytest"
+                "OPT_PREFIX" : "xcache"
             },
             "compress": true
         },
         "redis" : {
             "host": "127.0.0.1:6379",
             "options": {
-                "OPT_PREFIX" : "mytest"
+                "OPT_PREFIX" : "xcache"
             },
             "compress": true
         }
