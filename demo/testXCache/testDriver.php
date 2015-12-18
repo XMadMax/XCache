@@ -13,7 +13,7 @@ function logMessage($type,$msg)
 }
 
 // Include composer autoload
-include_once "../../vendor/autoload.php";
+include_once "../../../vendor/autoload.php";
 
 class TestDriver
 {	

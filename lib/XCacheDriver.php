@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/lib/XCache.php';
+//require_once __DIR__ . '/XCache.php';
 
 /**
  * XCache base class
