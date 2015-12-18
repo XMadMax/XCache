@@ -74,8 +74,8 @@ class XCache
             return FALSE;
 
         foreach ($_COOKIE as $key => $val) {
-            if (preg_match('/' . self::$config['cache_logged_cookie'] . '/', $key, $matches)) {
-                return self::$config['cache_only_not_logged_pages'];
+            if (preg_match('/' . self::$config->cache_logged_cookie . '/', $key, $matches)) {
+                return self::$config->cache_only_not_logged_pages;
             }
         }
 
