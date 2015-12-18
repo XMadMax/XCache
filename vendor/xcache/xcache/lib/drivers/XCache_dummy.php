@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/XCache_interface.php';
+
+require_once __DIR__ . '/XCache_interface.php';
 
 /**
  * XCache DUMMY Caching Class
@@ -23,7 +24,7 @@ class XCache_dummy extends XCache implements XCache_interface
      */
     public function readCache($type, $name, $ID, $onlyCheck = FALSE)
     {
-        self::logMessage('CACHE', "Dummy Read OK: $type / $name / $ID.");
+        self::logMessage('cache', "Dummy Read OK: $type / $name / $ID.");
         return FALSE;
     }
 
@@ -40,7 +41,7 @@ class XCache_dummy extends XCache implements XCache_interface
      */
     public function writeCache($type, $name, $ID, $output, $depID = "")
     {
-        self::logMessage('CACHE', "Dummy Write OK: $type / $name / $ID.");
+        self::logMessage('cache', "Dummy Write OK: $type / $name / $ID.");
         return TRUE;
     }
 
@@ -67,7 +68,7 @@ class XCache_dummy extends XCache implements XCache_interface
      */
     public function cleanCache()
     {
-        self::logMessage('CACHE', "Cache dummy clean: $type / $name / $ID");
+        self::logMessage('cache', "Cache dummy clean: $type / $name / $ID");
         return TRUE;
     }
 
@@ -121,4 +122,3 @@ class XCache_dummy extends XCache implements XCache_interface
 // End Class
 
 /* End of file Cache_dummy.php */
-/* Location: ./system/libraries/Cache/drivers/Cache_dummy.php */

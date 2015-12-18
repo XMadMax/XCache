@@ -2,25 +2,35 @@
     "cache_enabled": false,
     "cache_driver": "file",
     "cache_hosts": {
-        "file" : {
+        "file": {
             "path": "",
             "options": false,
             "compress": true
         },
-        "memcache" : {
+        "apc": {
+            "options": false,
+            "compress": false
+        },
+        "xcache": {
+            "options": false,
+            "compress": false
+        },
+        "memcache": {
             "host": "127.0.0.1:11211",
             "options": false,
             "compress": true
         },
-        "mongodb" : {
+        "mongodb": {
             "host": "127.0.0.1:27017",
-            "options": false,
+            "options": {
+                "OPT_PREFIX": "MyPrefix"
+            },
             "compress": true
         },
-        "redis" : {
+        "redis": {
             "host": "127.0.0.1:6379",
             "options": {
-                "OPT_PREFIX" : "MyPrefix"
+                "OPT_PREFIX": "MyPrefix"
             },
             "compress": true
         }
@@ -29,7 +39,6 @@
     "cache_only_not_logged_pages": false,
     "cache_get": true,
     "cache_post": true,
-    
     "cache_pages": {
         "default": false,
         "regexp": {
@@ -42,5 +51,12 @@
             "^test_": 10
         },
         "test_test": 15
+    },
+    "cache_values": {
+        "default": 15,
+        "regexp": {
+            "^varTest$": 30
+        },
+        "myVar": 20
     }
 }

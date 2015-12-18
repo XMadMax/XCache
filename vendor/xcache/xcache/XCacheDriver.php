@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/lib/XCache.php';
 
 /**
@@ -13,17 +14,17 @@ require_once __DIR__ . '/lib/XCache.php';
  */
 trait XCacheDriver
 {
+
     public $xcacheClass = null;
 
     public function xCachePass($confPath = '')
     {
-        if (is_null($this->xcacheClass)) { 
+        if (is_null($this->xcacheClass)) {
 
             if ($confPath == '') {
                 if (defined("XCACHE_CONFPATH")) {
                     $confPath = XCACHE_CONFPATH;
-                }
-                else {
+                } else {
                     $rc = new \ReflectionClass(get_class($this));
                     $confPath = dirname($rc->getFileName());
                 }
@@ -33,7 +34,7 @@ trait XCacheDriver
         return $this;
     }
 
-    public function xCacheMethod($type, $name, $ID, $class, $method , $methodParams = '')
+    public function xCacheMethod($type, $name, $ID, $class, $method, $methodParams = '')
     {
         if (is_null($this->xcacheClass)) {
             $this->xcachePass();
@@ -41,7 +42,7 @@ trait XCacheDriver
         return $this->xcacheClass->cache($type, $name, $ID, $class, $method, $methodParams);
     }
 
-    public function xCacheValue($type, $name, $ID, $value='')
+    public function xCacheValue($type, $name, $ID, $value = '')
     {
         if (is_null($this->xcacheClass)) {
             $this->xcachePass();
@@ -72,8 +73,7 @@ trait XCacheDriver
                 $this->xcacheClass->writeCache('cache_methods', get_class($this) . $methodName, $ID, $result);
             }
             return $result;
-        }
-        else {
+        } else {
             if (get_parent_class()) {
                 return parent::__call($name, $arguments);
             } else {
@@ -83,4 +83,3 @@ trait XCacheDriver
     }
 
 }
-

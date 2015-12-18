@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/XCache_interface.php';
+
+require_once __DIR__ . '/XCache_interface.php';
 
 /**
  * XCache File Caching Class
@@ -12,11 +13,12 @@ require_once __DIR__.'/XCache_interface.php';
  */
 class XCache_file extends XCache implements XCache_interface
 {
+
     protected $compress = true;
 
     public function __construct()
     {
-        $this->compress = $this->getCacheConfigItem('compress','file','cache_hosts');
+        $this->compress = $this->getCacheConfigItem('compress', 'file', 'cache_hosts');
     }
 
     /**
@@ -37,9 +39,9 @@ class XCache_file extends XCache implements XCache_interface
         if (isset($_POST) && count($_POST) > 0)
             $ID = $ID . md5(serialize($_POST));
 
-        $cache_path = $this->getCacheConfigItem('path','file','cache_hosts');
+        $cache_path = $this->getCacheConfigItem('path', 'file', 'cache_hosts');
 
-        self::logMessage('debug', "Reading file $type - $name - $ID.");
+        self::logMessage('cache', "Cache file reading $type - $name - $ID.");
 
         if (!is_dir($cache_path))
             @mkdir($cache_path, 0777, TRUE);
@@ -61,8 +63,6 @@ class XCache_file extends XCache implements XCache_interface
         }
 
         $filepath = realpath($cache_path) . '/' . md5($ID);
-
-        self::logMessage('debug', "Checking file $type - $name - $ID on $filepath.");
 
         if (!file_exists($filepath)) {
             return FALSE;
@@ -90,7 +90,7 @@ class XCache_file extends XCache implements XCache_interface
         // Has the file expired? If so we'll delete it.
         if (time() >= trim(str_replace('TS--->', '', $match['1']))) {
             @unlink($filepath);
-            self::logMessage('debug', "Cache file $type - $name has expired. File deleted: " . $filepath);
+            self::logMessage('cache', "Cache file $type - $name has expired. File deleted: " . $filepath);
             if (count($item_properties) > 1) {
                 foreach (explode('|', $item_properties[2]) as $key => $val) {
                     foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(dirname($filepath))) as $filename => $objFile) {
@@ -98,20 +98,19 @@ class XCache_file extends XCache implements XCache_interface
                         $regexp = '/^' . trim($val) . '/';
                         if (preg_match($regexp, $objFile->getFileName())) {
                             @unlink($filename);
-                            self::logMessage('debug', "Cache dependency file deleted: " . $filename);
+                            self::logMessage('cache', "Cache dependency file deleted: " . $filename);
                         }
                     }
                 }
             }
             return FALSE;
         } else {
-            self::logMessage('debug', "Cache file $type - $name is current. Sending it to browser.");
+            self::logMessage('cache', "Cache file $type - $name is OK. ");
         }
 
         if ($onlyCheck)
             return TRUE;
         $cache = str_replace($match['0'], '', $cache);
-        self::logMessage('debug', 'Cache Read OK : ' . $type . '/' . $name . '/' . $ID);
 
         try {
             if ($this->compress == TRUE)
@@ -121,7 +120,7 @@ class XCache_file extends XCache implements XCache_interface
         } catch (Exception $e) {
             return false;
         }
-        
+
         return $output;
     }
 
@@ -143,9 +142,9 @@ class XCache_file extends XCache implements XCache_interface
         if (isset($_POST) && count($_POST) > 0)
             $ID = $ID . md5(serialize($_POST));
 
-        self::logMessage('debug', "Writting file $type $name $ID");
+        self::logMessage('cache', "Cache file writting file $type $name $ID");
 
-        $cache_path = $this->getCacheConfigItem('path','file','cache_hosts');
+        $cache_path = $this->getCacheConfigItem('path', 'file', 'cache_hosts');
 
         if (!is_dir($cache_path))
             @mkdir($cache_path, 0777, TRUE);
@@ -175,13 +174,12 @@ class XCache_file extends XCache implements XCache_interface
         $filepath = realpath($cache_path) . '/' . md5($ID);
 
         if (!$fp = fopen($filepath, 'wb')) {
-            self::logMessage('error', "Unable to write cache file: " . $filepath);
+            self::logMessage('cache', "Unable to write cache file: " . $filepath);
             return FALSE;
         }
         $expire = time() + ($item_expiration);
 
         if (flock($fp, LOCK_EX)) {
-            self::logMessage('debug', "Cache file writting: " . $filepath);
             if ($this->compress == TRUE)
                 fwrite($fp, $expire . 'TS--->' . gzdeflate(serialize($output)));
             else
@@ -189,17 +187,14 @@ class XCache_file extends XCache implements XCache_interface
             flock($fp, LOCK_UN);
         }
         else {
-            self::logMessage('error', "Unable to secure a file lock for file at: " . $cache_path);
+            self::logMessage('cache', "Unable to secure a file lock for file at: " . $cache_path);
             return FALSE;
         }
 
         fclose($fp);
         @chmod($filepath, 0777);
 
-        self::logMessage('debug', "Cache file written: " . $filepath);
-
-        if (function_exists('profiler_log'))
-            profiler_log('CACHE', 'Cache File Write OK: ' . $type . '/' . $name . '/' . $ID);
+        self::logMessage('cache', 'Cache file write OK: ' . $type . '/' . $name . '/' . $ID);
 
         return TRUE;
     }
@@ -317,4 +312,3 @@ class XCache_file extends XCache implements XCache_interface
 // End Class
 
 /* End of file Cache_dummy.php */
-/* Location: ./system/libraries/Cache/drivers/Cache_dummy.php */

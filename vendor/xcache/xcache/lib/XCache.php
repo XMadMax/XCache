@@ -1,4 +1,5 @@
 <?php
+
 /**
  * XCache base class
  *
@@ -15,8 +16,9 @@ if (class_exists('XCache')) {
 
 class XCache
 {
+
     protected $valid_drivers = array(
-        'apc', 'file', 'memcache', 'dummy', 'mongodb', 'xcache', 'redis', 'memcached' 
+        'apc', 'file', 'memcache', 'dummy', 'mongodb', 'xcache', 'redis', 'memcached'
     );
     private $_adapter = 'file';
     private $_backup_driver = 'file';
@@ -32,15 +34,15 @@ class XCache
      */
     public function __construct($filepath = '')
     {
-	if (defined('XCACHE_CONFPATH') && $filepath == '')
-		$filepath = XCACHE_CONFPATH;
+        if (defined('XCACHE_CONFPATH') && $filepath == '')
+            $filepath = XCACHE_CONFPATH;
 
-	if (isset($_SERVER['REQUEST_URI']))
-		$this->requestURI = $_SERVER['REQUEST_URI'];
-	else
-		$this->requestURI = $_SERVER['argv'][0];
-		
-        $this->getCacheConfigFile($filepath); 
+        if (isset($_SERVER['REQUEST_URI']))
+            $this->requestURI = $_SERVER['REQUEST_URI'];
+        else
+            $this->requestURI = $_SERVER['argv'][0];
+
+        $this->getCacheConfigFile($filepath);
         $this->enabled = $this->getCacheConfigItem('cache_enabled');
         $this->_adapter = $this->getCacheConfigItem('cache_driver');
         self::$xcinstance = $this;
@@ -90,7 +92,7 @@ class XCache
     {
         $baseDir = array();
         if ($force || !is_object(self::$config)) {
-            $baseDir = array(rtrim($filepath,DIRECTORY_SEPARATOR),__DIR__);
+            $baseDir = array(rtrim($filepath, DIRECTORY_SEPARATOR), __DIR__);
 
             foreach ($baseDir as $path) {
                 if (file_exists($path . '/xcacheconf.json')) {
@@ -250,7 +252,7 @@ class XCache
      */
     public function getCacheItemExpiration($type, $name, $originalID)
     {
-        $expirations = $this->getCacheConfigItem($name, $type); 
+        $expirations = $this->getCacheConfigItem($name, $type);
         if (is_numeric($expirations) && $expirations > 0) {
             return $expirations;
         }
@@ -570,7 +572,7 @@ class XCache
      * @param array $methodParams
      * @return var
      */
-    public function cache($type, $name, $ID, $objectorvalue='', $method = '', $methodParams = '')
+    public function cache($type, $name, $ID, $objectorvalue = '', $method = '', $methodParams = '')
     {
         $this->getXCInstance();
         if (($cachedata = $this->readCache($type, $name, $ID)) === false) {
@@ -584,7 +586,7 @@ class XCache
             } else {
                 $cachedata = $objectorvalue;
             }
-            
+
             if ($objectorvalue)
                 $this->writeCache($type, $name, $ID, $cachedata);
         }

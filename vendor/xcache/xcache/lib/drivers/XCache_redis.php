@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/XCache_interface.php';
+
+require_once __DIR__ . '/XCache_interface.php';
 
 /**
  * XCache REDIS Caching Class
@@ -18,7 +19,7 @@ class XCache_redis extends XCache implements XCache_interface
 
     public function __construct()
     {
-        $this->compress = $this->getCacheConfigItem('compress','redis','cache_hosts');
+        $this->compress = $this->getCacheConfigItem('compress', 'redis', 'cache_hosts');
     }
 
     /**
@@ -37,7 +38,7 @@ class XCache_redis extends XCache implements XCache_interface
         if (isset($_POST) && count($_POST) > 0)
             $ID = $ID . md5(serialize($_POST));
 
-        self::logMessage('debug', "Reading redis $type - $name - $ID.");
+        self::logMessage('cache', "Cache redis reading $type - $name - $ID.");
 
         $item_expiration = $this->getCacheItemExpiration($type, $name, $originalID);
 
@@ -64,8 +65,7 @@ class XCache_redis extends XCache implements XCache_interface
             return false;
         }
 
-        if (function_exists('profiler_log'))
-            profiler_log('CACHE', 'Redis Read OK: ' . $type . '/' . $name . '/' . $ID);
+        self::logMessage('cache', 'Cache redis read OK: ' . $type . '/' . $name . '/' . $ID);
 
         if ($output && $onlyCheck)
             return TRUE;
@@ -91,8 +91,6 @@ class XCache_redis extends XCache implements XCache_interface
         if (isset($_POST) && count($_POST) > 0)
             $ID = $ID . md5(serialize($_POST));
 
-        if (function_exists('profiler_log')) profiler_log('CACHE','Redis Write init : '.$type.'/'.$name.'/'.$ID);
-
         $item_expiration = $this->getCacheItemExpiration($type, $name, $originalID);
 
         if (is_array($item_expiration)) {
@@ -111,9 +109,8 @@ class XCache_redis extends XCache implements XCache_interface
             $this->getInstance()->set($type . '-' . $name . '-' . $ID, gzdeflate(serialize($output)), $item_expiration);
         else
             $this->getInstance()->set($type . '-' . $name . '-' . $ID, serialize($output), $item_expiration);
-        
-        if (function_exists('profiler_log'))
-            profiler_log('CACHE', 'Redis Write OK: ' . $type . '/' . $name . '/' . $ID);
+
+        self::logMessage('cache', 'Cache redis write OK: ' . $type . '/' . $name . '/' . $ID);
 
         return TRUE;
     }
@@ -185,7 +182,7 @@ class XCache_redis extends XCache implements XCache_interface
     public function isSupported($driver)
     {
         if (!extension_loaded('redis')) {
-            self::logMessage('error', 'The REDIS PHP extension must be loaded to use Redis Cache.','exception','DRIVER');
+            self::logMessage('error', 'The REDIS PHP extension must be loaded to use Redis Cache.');
             return FALSE;
         } else {
             return TRUE;
@@ -200,7 +197,7 @@ class XCache_redis extends XCache implements XCache_interface
      */
     public function getInstance()
     {
-        $cache_path = explode(':', $this->getCacheConfigItem('host','redis','cache_hosts'));
+        $cache_path = explode(':', $this->getCacheConfigItem('host', 'redis', 'cache_hosts'));
 
         $host = $cache_path[0];
         $port = $cache_path[1];
@@ -217,37 +214,36 @@ class XCache_redis extends XCache implements XCache_interface
 
         return $this->_instance;
     }
-    
+
     public function setOptions($options)
     {
         foreach ($options as $key => $val) {
-            switch ($key)
-            {
+            switch ($key) {
                 case "OPT_PREFIX":
-                    $this->getInstance()->setOption(Redis::OPT_PREFIX, $val.':');
-                break;
+                    $this->getInstance()->setOption(Redis::OPT_PREFIX, $val . ':');
+                    break;
                 case "OPT_SERIALIZER_NONE":
                     $this->getInstance()->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_NONE);
-                break;
+                    break;
                 case "OPT_SERIALIZER_PHP":
                     $this->getInstance()->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);
-                break;
+                    break;
                 case "OPT_SERIALIZER_IGBINARY":
                     $this->getInstance()->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_IGBINARY);
-                break;
+                    break;
                 case "OPT_SCAN_RETRY":
                     $this->getInstance()->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
-                break;
+                    break;
                 case "OPT_SCAN_NORETRY":
                     $this->getInstance()->setOption(Redis::OPT_SCAN, Redis::SCAN_NORETRY);
-                break;
+                    break;
             }
         }
         return true;
     }
+
 }
 
 // End Class
 
 /* End of file Cache_redis.php */
-/* Location: ./system/libraries/Cache/drivers/Cache_dummy.php */

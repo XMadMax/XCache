@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/XCache_interface.php';
+
+require_once __DIR__ . '/XCache_interface.php';
 
 /**
  * XCache MEMCACHE Caching Class
@@ -36,7 +37,7 @@ class XCache_memcache extends XCache implements XCache_interface
         if (isset($_POST) && count($_POST) > 0)
             $ID = $ID . md5(serialize($_POST));
 
-        self::logMessage('debug', "Reading memcache $type - $name - $ID.");
+        self::logMessage('cache', "Cache memcache reading $type - $name - $ID.");
 
         $item_expiration = $this->getCacheItemExpiration($type, $name, $originalID);
 
@@ -57,8 +58,7 @@ class XCache_memcache extends XCache implements XCache_interface
         if ($cache == FALSE)
             return FALSE;
 
-        if (function_exists('profiler_log'))
-            profiler_log('CACHE', 'Memcache Read OK: ' . $type . '/' . $name . '/' . $ID);
+        self::logMessage('cache', 'Cache memcache read OK: ' . $type . '/' . $name . '/' . $ID);
 
         if ($cache && $onlyCheck)
             return TRUE;
@@ -83,7 +83,6 @@ class XCache_memcache extends XCache implements XCache_interface
 
         if (isset($_POST) && count($_POST) > 0)
             $ID = $ID . md5(serialize($_POST));
-        //if (function_exists('profiler_log')) profiler_log('CACHE','Memcache Write init : '.$type.'/'.$name.'/'.$ID);
 
         $item_expiration = $this->getCacheItemExpiration($type, $name, $originalID);
 
@@ -101,8 +100,7 @@ class XCache_memcache extends XCache implements XCache_interface
 
         $this->getInstance()->set($type . '-' . $name . '-' . $ID, serialize($output), MEMCACHE_COMPRESSED, $item_expiration);
 
-        if (function_exists('profiler_log'))
-            profiler_log('CACHE', 'Memcache Write OK: ' . $type . '/' . $name . '/' . $ID);
+        self::logMessage('cache', 'Cache memcache write OK: ' . $type . '/' . $name . '/' . $ID);
 
         return TRUE;
     }
@@ -174,7 +172,7 @@ class XCache_memcache extends XCache implements XCache_interface
     public function isSupported($driver)
     {
         if (!extension_loaded('memcache')) {
-            self::logMessage('error', 'The MEMCACHE PHP extension must be loaded to use Memcache Cache.');
+            self::logMessage('cache', 'The MEMCACHE PHP extension must be loaded to use Memcache Cache.');
             return FALSE;
         } else {
             return TRUE;
@@ -189,7 +187,7 @@ class XCache_memcache extends XCache implements XCache_interface
      */
     public function getInstance()
     {
-        $cache_path = explode(':', $this->getCacheConfigItem('host','memcache','cache_hosts'));
+        $cache_path = explode(':', $this->getCacheConfigItem('host', 'memcache', 'cache_hosts'));
 
         $host = $cache_path[0];
         $port = $cache_path[1];
@@ -212,4 +210,3 @@ class XCache_memcache extends XCache implements XCache_interface
 // End Class
 
 /* End of file Cache_memcache.php */
-/* Location: ./system/libraries/Cache/drivers/Cache_dummy.php */

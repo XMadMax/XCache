@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/XCache_interface.php';
+
+require_once __DIR__ . '/XCache_interface.php';
 
 /**
  * XCache MEMCACHED Caching Class
@@ -36,7 +37,7 @@ class XCache_memcached extends XCache implements XCache_interface
         if (isset($_POST) && count($_POST) > 0)
             $ID = $ID . md5(serialize($_POST));
 
-        self::logMessage('debug', "Reading memcache $type - $name - $ID.");
+        self::logMessage('cache', "Cache reading memcached $type - $name - $ID.");
 
         $item_expiration = $this->getCacheItemExpiration($type, $name, $originalID);
 
@@ -57,8 +58,7 @@ class XCache_memcached extends XCache implements XCache_interface
         if ($cache == FALSE)
             return FALSE;
 
-        if (function_exists('profiler_log'))
-            profiler_log('CACHE', 'Memcache Read OK: ' . $type . '/' . $name . '/' . $ID);
+        self::logMessage('CACHE', 'Cache memcached read OK: ' . $type . '/' . $name . '/' . $ID);
 
         if ($cache && $onlyCheck)
             return TRUE;
@@ -83,7 +83,6 @@ class XCache_memcached extends XCache implements XCache_interface
 
         if (isset($_POST) && count($_POST) > 0)
             $ID = $ID . md5(serialize($_POST));
-        //if (function_exists('profiler_log')) profiler_log('CACHE','Memcache Write init : '.$type.'/'.$name.'/'.$ID);
 
         $item_expiration = $this->getCacheItemExpiration($type, $name, $originalID);
 
@@ -101,8 +100,7 @@ class XCache_memcached extends XCache implements XCache_interface
 
         $this->getInstance()->set($type . '-' . $name . '-' . $ID, serialize($output), MEMCACHE_COMPRESSED, $item_expiration);
 
-        if (function_exists('profiler_log'))
-            profiler_log('CACHE', 'Memcache Write OK: ' . $type . '/' . $name . '/' . $ID);
+        self::logMessage('cache', 'Cache memcached write OK: ' . $type . '/' . $name . '/' . $ID);
 
         return TRUE;
     }
@@ -174,7 +172,7 @@ class XCache_memcached extends XCache implements XCache_interface
     public function isSupported($driver)
     {
         if (!extension_loaded('memcached')) {
-            self::logMessage('error', 'The MEMCACHED PHP extension must be loaded to use Memcached Cache.','exception','DRIVER');
+            self::logMessage('cache', 'The MEMCACHED PHP extension must be loaded to use Memcached Cache.');
             return FALSE;
         } else {
             return TRUE;
@@ -195,10 +193,10 @@ class XCache_memcached extends XCache implements XCache_interface
 
         // Create new instance or return current
         if ($this->_instance == NULL) {
-            $cache_hosts = explode(',', $this->getCacheConfigItem('host','memcached','cache_hosts'));
+            $cache_hosts = explode(',', $this->getCacheConfigItem('host', 'memcached', 'cache_hosts'));
             $this->_instance = new Memcached;
-            foreach ($cache_hosts as $server){
-                $path = explode(':',$server);
+            foreach ($cache_hosts as $server) {
+                $path = explode(':', $server);
                 $host = $path[0];
                 $port = $path[1];
                 $this->_instance->addServer($host, $port);
@@ -207,34 +205,33 @@ class XCache_memcached extends XCache implements XCache_interface
 
         return $this->_instance;
     }
-    
+
     public function setOptions($options)
     {
         foreach ($options as $key => $val) {
-            switch ($key)
-            {
+            switch ($key) {
                 case "OPT_PREFIX_KEY":
-                    $this->getInstance()->setOption(Memcached::OPT_PREFIX_KEY, $val.':');
-                break;
+                    $this->getInstance()->setOption(Memcached::OPT_PREFIX_KEY, $val . ':');
+                    break;
                 case "OPT_SERIALIZER_PHP":
                     $this->getInstance()->setOption(Memcached::OPT_SERIALIZER, Memcached::SERIALIZER_PHP);
-                break;
+                    break;
                 case "OPT_SERIALIZER_IGBINARY":
                     $this->getInstance()->setOption(Memcached::OPT_SERIALIZER, Memcached::SERIALIZER_IGBINARY);
-                break;
+                    break;
                 case "OPT_DISTRIBUTION_CONSISTENT":
                     $this->getInstance()->setOption(Memcached::OPT_DISTRIBUTION, Memcached::DISTRIBUTION_CONSISTENT);
-                break;
+                    break;
                 case "OPT_SCAN_NORETRY":
                     $this->getInstance()->setOption(Memcached::OPT_SCAN, Memcached::SCAN_NORETRY);
-                break;
+                    break;
             }
         }
         return true;
     }
+
 }
 
 // End Class
 
 /* End of file Cache_memcache.php */
-/* Location: ./system/libraries/Cache/drivers/Cache_dummy.php */

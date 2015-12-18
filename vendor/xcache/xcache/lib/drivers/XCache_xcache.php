@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/XCache_interface.php';
+
+require_once __DIR__ . '/XCache_interface.php';
 
 /**
  * XCache XCache Caching Class
@@ -36,7 +37,7 @@ class XCache_xcache extends XCache implements XCache_interface
         if (isset($_POST) && count($_POST) > 0)
             $ID = $ID . md5(serialize($_POST));
 
-        self::logMessage('debug', "Reading APC $type - $name - $ID.");
+        self::logMessage('cache', "Cche xcache reading $type - $name - $ID.");
 
         $item_expiration = $this->getCacheItemExpiration($type, $name, $originalID);
 
@@ -57,8 +58,7 @@ class XCache_xcache extends XCache implements XCache_interface
         if ($cache == FALSE)
             return FALSE;
 
-        if (function_exists('profiler_log'))
-            profiler_log('CACHE', 'APC Read OK: ' . $type . '/' . $name . '/' . $ID);
+        self::logMessage('cache', 'Cache xcache read OK: ' . $type . '/' . $name . '/' . $ID);
 
         if ($cache && $onlyCheck)
             return TRUE;
@@ -81,8 +81,6 @@ class XCache_xcache extends XCache implements XCache_interface
     {
         $originalID = $ID;
 
-        //if (function_exists('profiler_log')) profiler_log('CACHE','Memcache Write init : '.$type.'/'.$name.'/'.$ID);
-
         $item_expiration = $this->getCacheItemExpiration($type, $name, $originalID);
 
         if (is_array($item_expiration)) {
@@ -99,8 +97,7 @@ class XCache_xcache extends XCache implements XCache_interface
 
         xcache_set($type . '-' . $name . '-' . $ID, serialize($output), $item_expiration);
 
-        if (function_exists('profiler_log'))
-            profiler_log('CACHE', 'APC Write OK: ' . $type . '/' . $name . '/' . $ID);
+        self::logMessage('cache', 'Cache xcache write OK: ' . $type . '/' . $name . '/' . $ID);
 
         return TRUE;
     }
@@ -172,7 +169,7 @@ class XCache_xcache extends XCache implements XCache_interface
     public function isSupported($driver)
     {
         if (!extension_loaded('xcache') OR ini_get('xcache.size') == "0") {
-            self::logMessage('error', 'The XCACHE PHP extension must be loaded to use XCache Cache.');
+            self::logMessage('cache', 'The XCACHE PHP extension must be loaded to use XCache Cache.');
             return FALSE;
         }
 
@@ -195,5 +192,5 @@ class XCache_xcache extends XCache implements XCache_interface
 // End Class
 
 /* End of file Cache_memcache.php */
-/* Location: ./system/libraries/Cache/drivers/Cache_dummy.php */
+
 

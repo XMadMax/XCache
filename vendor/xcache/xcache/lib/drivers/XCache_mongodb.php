@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/XCache_interface.php';
+
+require_once __DIR__ . '/XCache_interface.php';
 
 /**
  * XCache MONGODB Caching Class
@@ -19,7 +20,7 @@ class XCache_mongodb extends XCache implements XCache_interface
 
     public function __construct()
     {
-        $this->compress = $this->getCacheConfigItem('compress','redis','cache_hosts');
+        $this->compress = $this->getCacheConfigItem('compress', 'redis', 'cache_hosts');
     }
 
     /**
@@ -38,7 +39,7 @@ class XCache_mongodb extends XCache implements XCache_interface
         if (isset($_POST) && count($_POST) > 0)
             $ID = $ID . md5(serialize($_POST));
 
-        self::logMessage('debug', "Reading mongodb $type - $name - $ID.");
+        self::logMessage('cache', "Cache mongoDB reading $type - $name - $ID.");
 
         $item_expiration = $this->getCacheItemExpiration($type, $name, $originalID);
 
@@ -64,25 +65,24 @@ class XCache_mongodb extends XCache implements XCache_interface
 
         // Has the file expired? If so we'll delete it.
         if (time() >= $expires) {
-            self::logMessage('debug', "MongoDB Read: $type . '-' . $name . '-' . $ID  has expired");
+            self::logMessage('cache', "Cache mongoDB read expired : $type . '-' . $name . '-' . $ID");
             $this->getInstance()->remove(array('KEY' => $this->keyPrefix, 'ID' => $type . '-' . $name . '-' . $ID));
             return false;
         }
 
-        self::logMessage('debug', 'MongoDB Read OK: ' . $type . '/' . $name . '/' . $ID);
+        self::logMessage('cache', 'Cache mongoDB read OK: ' . $type . '/' . $name . '/' . $ID);
 
         if ($cache && $onlyCheck)
             return TRUE;
         if ($this->compress)
-
-        try {
-            if ($this->compress == TRUE)
-                $output = @unserialize($cache);
-            else
-                $output = @unserialize($cache);
-        } catch (Exception $e) {
-            return false;
-        }
+            try {
+                if ($this->compress == TRUE)
+                    $output = @unserialize($cache);
+                else
+                    $output = @unserialize($cache);
+            } catch (Exception $e) {
+                return false;
+            }
         return $output;
     }
 
@@ -122,10 +122,10 @@ class XCache_mongodb extends XCache implements XCache_interface
             $output = serialize($output);
         else
             $output = serialize($output);
-        
+
         $this->getInstance()->update(array('KEY' => $this->keyPrefix, 'ID' => $type . '-' . $name . '-' . $ID), array('KEY' => $this->keyPrefix, 'ID' => $type . '-' . $name . '-' . $ID, 'insert' => time(), 'expires' => $expire, 'content' => $output), array("upsert" => true));
 
-        self::logMessage('debug', 'MongoDB Write OK: ' . $type . '/' . $name . '/' . $ID);
+        self::logMessage('cache', 'Cache mongoDB write OK: ' . $type . '/' . $name . '/' . $ID);
 
         return TRUE;
     }
@@ -198,10 +198,9 @@ class XCache_mongodb extends XCache implements XCache_interface
     public function isSupported($driver)
     {
         if (!extension_loaded('mongo')) {
-            self::logMessage('error', 'The MONGODB PHP extension must be loaded to use MomgoDB Cache.','exception','DRIVER');
+            self::logMessage('error', 'The MONGODB PHP extension must be loaded to use MongoDB Cache.', 'exception', 'DRIVER');
             return FALSE;
-        }
-        else {
+        } else {
             return TRUE;
         }
     }
@@ -216,7 +215,7 @@ class XCache_mongodb extends XCache implements XCache_interface
     {
         // cache_mongodb must to be:
         //     host:port:user:pass:db
-        $cache_db = explode(':', $this->getCacheConfigItem('host','mongodb','cache_hosts'));
+        $cache_db = explode(':', $this->getCacheConfigItem('host', 'mongodb', 'cache_hosts'));
 
         $cache_db_host = trim($cache_db[0]);
         $cache_db_port = trim($cache_db[1]);
@@ -255,21 +254,21 @@ class XCache_mongodb extends XCache implements XCache_interface
         if ($this->_instance == NULL) {
             $options = array();
             try {
-                $client = new MongoClient($connection_string); 
+                $client = new MongoClient($connection_string);
                 $dbconnection = new MongoDB($client, $cache_db_dbname);
                 $this->_instance = new MongoCollection($dbconnection, $cache_db_collection);
                 // Create base collection for xcache
                 $this->_instance->update(array('KEY' => $this->keyPrefix, 'ID' => 'xcache', 'expires' => 0, 'content' => 'basecollection'), array("upsert" => true));
-                $this->_instance->ensureIndex(array('ID' => 1,'KEY' => 1), array('unique' => true));
+                $this->_instance->ensureIndex(array('ID' => 1, 'KEY' => 1), array('unique' => true));
                 $this->_instance->ensureIndex(array('KEY' => 1), array('unique' => false));
             } catch (MongoConnectionException $e) {
-                self::logMessage('error', "Unable to connect to MongoDB: {$e->getMessage()}",'exception','CONNECT');
+                self::logMessage('error', "Unable to connect to MongoDB: {$e->getMessage()}", 'exception', 'CONNECT');
             }
         }
 
         return $this->_instance;
     }
-    
+
     public function setOptions($options)
     {
         $this->keyPrefix = $options->OPT_PREFIX;

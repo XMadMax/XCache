@@ -1,6 +1,6 @@
 {
     "cache_enabled": true,
-    "cache_driver": "xcache",
+    "cache_driver": "apc",
     "cache_hosts": {
         "file" : {
             "path": "/var/xcache/",

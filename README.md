@@ -134,6 +134,21 @@ The OPT_PREFIX will compose the key of any item saved in the collection, allowin
 The compress option is available, takes more time to compress, but less time reading and less space on ram/disk.
 If php_redis is not avaliable, then file driver is used.
 
+##### Apc
+    Configure xcacheconf.json with:
+```php
+        "cache_driver": "apc",
+```
+And, in the cache_hosts group:
+```php
+        "apc" : {
+            "options": false,
+            "compress": false
+        },
+```    
+The compress is available, takes more time to compress, but less time reading and less space on shared memory.
+If php_apc is not avaliable, then file driver is used.
+
 #### Other options
 ##### Cache even when $_GET is set
 If you want to cache neither when is recieved GET parameters (example: http://www.myweb.com?param=111), cache_get must to set to 'true'
