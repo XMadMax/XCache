@@ -1,6 +1,9 @@
 ## Examples
 To view how works XCache, you can execute directlly from the command line inside this directory:
 
+Check the config, the cache_hosts->file->path directory must to exists and have 'write' permissions.
+By default, 'file' will be used, and all directory structure will be created.
+
 ### testDriver.php
 Test how 'auto-cache' a method inside a class.
 
