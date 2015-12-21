@@ -23,7 +23,7 @@ php testPageCache.php
 Use XCacheDriver to access a method that cache an external page. This is the most understable example that takes a long time getting 'file_get_contents', but once cached, get and immediate response.
 
 ```php
-php testPageCache.php
+php testAllPageCache.php
 ```
 
 ### testAllPageCache.php
