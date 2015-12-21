@@ -5,7 +5,7 @@ Check the config, the cache_hosts->file->path directory must to exists and have 
 By default, 'file' will be used, and all directory structure will be created.
 
 ### testDriver.php
-Test how 'auto-cache' a method inside a class.
+Test how to 'auto-cache' a method inside a class.
 
 ```php
 php testDriver.php
