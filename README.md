@@ -426,9 +426,10 @@ As described before, you need to add "myClass_myMethod" to the 'cache_method' gr
 ```
 #### Cache a key/value pair
 ```php
+$XCache = new XCache();
 $myClass = new myClass();
 $result = $myClass->myMethod($params);
-$myClass->xCacheValue("cache_values","myResult",md5('myResult'),$result);
+$cached = $XCache->cache("cache_values","myResult",md5('myResult'),$result);
 ```
 To have it working, the "myResult" key, must to be configured in the 'cache_values' group in xcacheconf.json, if not, will take the 'default' TTL:
     "cache_values": {
@@ -440,6 +441,6 @@ To have it working, the "myResult" key, must to be configured in the 'cache_valu
 
 To retrieve this result in any other php or line of code:
 ```php
-$result = $myClass->xCacheValue("cache_values","myResult",md5('myResult'));
+$result = $XCache->cache("cache_values","myResult",md5('myResult'));
 ```
 
