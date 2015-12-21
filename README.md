@@ -51,7 +51,7 @@ Configure xcacheconf.json with:
 In the cache_host group, define the absolute path to the 'cache' directory to be created:
 ```php
         "file" : {
-            "path": "/var/xcache/",
+            "path": "/var/tmp/xcache/",
             "options": false,
             "compress": true
         },
