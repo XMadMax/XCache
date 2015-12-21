@@ -142,7 +142,7 @@ class XCache_redis extends XCache implements XCache_interface
      */
     public function cleanCache()
     {
-        $this->getInstance()->flushAll();
+        $this->getInstance()->flushDb();
     }
 
     // ------------------------------------------------------------------------
@@ -236,6 +236,9 @@ class XCache_redis extends XCache implements XCache_interface
                     break;
                 case "OPT_SCAN_NORETRY":
                     $this->getInstance()->setOption(Redis::OPT_SCAN, Redis::SCAN_NORETRY);
+                    break;
+                case "OPT_DATABASE":
+                    $this->getInstance()->select($val);
                     break;
             }
         }
