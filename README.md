@@ -6,6 +6,7 @@ XCache comes with this drivers:
   - Files
   - Memcache
   - Memcached
+  - MongoDB
   - Apc
   - Redis
   
