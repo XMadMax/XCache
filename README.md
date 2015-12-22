@@ -109,7 +109,7 @@ And, in the cache_hosts group:
         "mongodb" : {
             "host": "127.0.0.1:27017:::xcachedb:xcachecollection",
             "options": {
-                "OPT_PREFIX" : "mytest"
+                "OPT_PREFIX" : "xcache"
             },
             "compress": false
         },
@@ -129,7 +129,7 @@ And, in the cache_hosts group:
         "mongodb" : {
             "host": "127.0.0.1:6379",
             "options": {
-                "OPT_PREFIX" : "mytest",
+                "OPT_PREFIX" : "xcache",
                 "OPT_DATABASE" : 0
             },
             "compress": false
