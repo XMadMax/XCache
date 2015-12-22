@@ -8,7 +8,7 @@ Three methods allowed:
 
 XCache comes with this drivers:
 
-  - Files
+  - File
   - Memcache
   - Memcached
   - MongoDB
@@ -125,13 +125,15 @@ And, in the cache_hosts group:
         "mongodb" : {
             "host": "127.0.0.1:6379",
             "options": {
-                "OPT_PREFIX" : "mytest"
+                "OPT_PREFIX" : "mytest",
+                "OPT_DATABASE" : 0
             },
             "compress": false
         },
 ```    
 Define host as "host:port".
 The OPT_PREFIX will compose the key of any item saved in the collection, allowing to xcache/redis to be used with other apps at same time.
+The OPT_DATABASE will select the database num, default is 0. When REDIS is used by many sources, use different databases for each.
 The compress option is available, takes more time to compress, but less time reading and less space on ram/disk.
 If php_redis is not avaliable, then file driver is used.
 
