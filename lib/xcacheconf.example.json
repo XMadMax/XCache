@@ -3,7 +3,7 @@
     "cache_driver": "file",
     "cache_hosts": {
         "file": {
-            "path": "",
+            "path": "/var/tmp/xcache/",
             "options": false,
             "compress": true
         },
