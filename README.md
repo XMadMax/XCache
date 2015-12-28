@@ -47,8 +47,13 @@ include_once "../../vendor/autoload.php";
 ```
 
 ### Configuration
+
+The configuration file will be ever 'xcacheconf.json'. Before you continue reading , you must to take at the file in the demo folder. The demo it's fully functional.
+
 #### XCache drivers
+
 ##### File
+
 Configure xcacheconf.json with:
 ```php
         "cache_driver": "file",
@@ -65,6 +70,7 @@ In Windows, the path is relative to the drive where the php program is located.
 The compress option is available, takes more time to compress, but less time reading and less space on disk.
 
 ##### Memcache
+
     Configure xcacheconf.json with:
 ```php
         "cache_driver": "memcache",
@@ -82,6 +88,7 @@ The compress is available, takes more time to compress, but less time reading an
 If php_memcache is not avaliable, then file driver is used.
 
 ##### Memcached
+
 Configure xcacheconf.json with:
 ```php
         "cache_driver": "memcached",
@@ -100,6 +107,7 @@ The compress option is available, takes more time to compress, but less time rea
 If php_memcached is not avaliable, then file driver is used.
 
 ##### MongoDB
+
 Configure xcacheconf.json with:
 ```php
         "cache_driver": "mongodb",
@@ -120,6 +128,7 @@ The compress option is available, takes more time to compress, but less time rea
 If php_mongodb is not avaliable, then file driver is used.
 
 ##### Redis
+
 Configure xcacheconf.json with:
 ```php
         "cache_driver": "redis",
@@ -142,6 +151,7 @@ The compress option is available, takes more time to compress, but less time rea
 If php_redis is not avaliable, then file driver is used.
 
 ##### Apc
+
     Configure xcacheconf.json with:
 ```php
         "cache_driver": "apc",
@@ -157,19 +167,24 @@ The compress is available, takes more time to compress, but less time reading an
 If php_apc is not avaliable, then file driver is used.
 
 #### Other options
+
 ##### Cache even when $_GET is set
+
 If you want to cache neither when is recieved GET parameters (example: http://www.myweb.com?param=111), cache_get must to set to 'true'
 Even when a page is called with GET paremeters, they will be part of the uniqueID to compose de cache key, allowing to have a diferent cache if GET parameters change.
 
 ##### Cache even when $_POST is set
+
 If you want to cache neither when is recieved POST parameters, cache_post must to set to 'true'
 Even when a page is called with POST paremeters, they will be part of the uniqueID to compose de cache key, allowing to have a diferent cache if POST parameters change.
 
 ##### Cache only when a user is not logged
+
 If you want to cache ONLY when no user is logged, your app must to write a cookie in the browser. The cookie name can be configured in 'cache_logged_cookie' option.
 When XCache detect this cookie, and 'cache_only_not_logged_pages' is set to 'true', the cache is deactivated.
 
 ### XCache usage & examples
+
 XCache can cache :
   - Automatic cache for any method in your class (can call any method in the class, uses a trait)
   - Cache a whole PHP code (en entire index.php, bootstrap, etc) by URL. Each URI can have it's own cache TTL 
@@ -247,6 +262,7 @@ You can configure regular expressions to cache a group of methods, for example, 
 Regexp expressions are evaluated with preg_match. You can use any combination that preg_match accepts.
 
 #### Cache a whole PHP code
+
 You can cache all the output of a block of code, the cacheID will be the REQUEST_URI:
 If you have a php with bootstrap or any opther code launching the base core class:
 ```php
@@ -293,6 +309,7 @@ The 'home' will be cached 1 hour, 'mypage' will be cached 5 minutes, any other p
 
 
 #### Cache an specific method of a class
+
 XCache can work alone or as a trait of any class. To work alone, use the previous example (Cache a whole PHP code), to work as a trait, use the example (Automatic cache for any method)
 This is usefull if you want to include XCache in any PHP code.
 
@@ -343,6 +360,7 @@ The xCacheMethod takes 6 arguments:
   6. The params
 
 #### Cache a key/value pair
+
 As described before, "xCacheValue" is also available inside any class that inherits the XCacheDriver trait.
 Using the same example described before:
 ```php
@@ -383,6 +401,7 @@ $result = $myClass->xCacheValue("cache_values","myResult",md5('myResult'));
 
 
 #### Set Cache-control headers 
+
 XCache can 'only' put a 'Cache-control' HTML headers to be understood by a CDN.
 Using the same example as for whole page cache, in the index.php or bootsrap.php :
 ```php
@@ -419,7 +438,9 @@ Include the composer autoload in your php file.
 require_once '../../vendor/autoload.php'; // Wherever is the composer autoload file
 define("XCACHE_CONFPATH",'/var/www/myApp/conf'); // Wherever is the xcacheconf.json file
 ```
+
 #### Cache an specific method of a class
+
 ```php
 $XCache = new XCache();
 $myClass = new myClass();
@@ -433,7 +454,9 @@ As described before, you need to add "myClass_myMethod" to the 'cache_method' gr
         "myClass_myMethod": 300
    },
 ```
+
 #### Cache a key/value pair
+
 ```php
 $XCache = new XCache();
 $myClass = new myClass();
