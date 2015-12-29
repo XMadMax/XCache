@@ -79,7 +79,9 @@ And, in the cache_hosts group:
 ```php
         "memcache" : {
             "host": "127.0.0.1:11211",
-            "options": false,
+            "options": {
+                "OPT_PREFIX" : "xcache"
+            },
             "compress": true
         },
 ```    
@@ -96,8 +98,10 @@ Configure xcacheconf.json with:
 And, in the cache_hosts group:
 ```php
         "memcached" : {
-            "host": "127.0.0.1:11211",
-            "options": false,
+            "host": "127.0.0.1:11211,127.0.0.1:11212",
+            "options": {
+                "OPT_PREFIX" : "xcache"
+            },
             "compress": true
         },
 ```    
