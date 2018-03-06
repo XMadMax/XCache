@@ -28,14 +28,19 @@ class XCache
     private $enabled = TRUE;
     public static $xcinstance;
     private $requestURI;
+    private $_baseID;
 
     /**
      * constructor
      */
-    public function __construct($filepath = '')
+    public function __construct($filepath = '', $baseID = '')
     {
         if (defined('XCACHE_CONFPATH') && $filepath == '')
             $filepath = XCACHE_CONFPATH;
+
+        if (defined('XCACHE_BASEID') && $baseID == '')
+            $baseID = XCACHE_BASEID;
+        $this->_baseID = $baseID;
 
         if (isset($_SERVER['REQUEST_URI']))
             $this->requestURI = $_SERVER['REQUEST_URI'];
@@ -402,6 +407,12 @@ class XCache
             $obj = new $childClass;
             $this->{$child} = $obj;
             $options = false;
+        }
+
+        if (is_object($options)) {
+            $options->BASEID = $this->_baseID;
+        } else {
+            $options = (object) array('BASEID' => $this->_baseID);
         }
 
         if ($options) {

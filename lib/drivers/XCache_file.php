@@ -40,6 +40,7 @@ class XCache_file extends XCache implements XCache_interface
             $ID = $ID . md5(serialize($_POST));
 
         $cache_path = $this->getCacheConfigItem('path', 'file', 'cache_hosts');
+        $cache_path = isset($this->baseID)?$cache_path.$this->baseID.'/':$cache_path;
 
         self::logMessage('cache', "Cache file reading $type - $name - $ID.");
 
@@ -145,6 +146,7 @@ class XCache_file extends XCache implements XCache_interface
         self::logMessage('cache', "Cache file writting file $type $name $ID");
 
         $cache_path = $this->getCacheConfigItem('path', 'file', 'cache_hosts');
+        $cache_path = isset($this->baseID)?$cache_path.$this->baseID.'/':$cache_path;
 
         if (!is_dir($cache_path))
             @mkdir($cache_path, 0777, TRUE);
@@ -209,7 +211,8 @@ class XCache_file extends XCache implements XCache_interface
      */
     public function deleteCache($type, $name = '', $ID = '')
     {
-        $cache_path = $this->getCacheConfigItem('cache_path');
+        $cache_path = $this->getCacheConfigItem('path', 'file', 'cache_hosts');
+        $cache_path = isset($this->baseID)?$cache_path.$this->baseID.'/':$cache_path;
         $cache_dir_path = $cache_path . $type . '/' . $name . '/' . substr(md5($ID), 0, 2) . '/' . substr(md5($ID), 2, 2) . '/' . substr(md5($ID), 4, 2) . '/' . substr(md5($ID), 6, 2) . '/';
         if ($ID == '')
             $cache_dir_path = $cache_path . $type . '/' . $name . '/';
@@ -258,7 +261,8 @@ class XCache_file extends XCache implements XCache_interface
      */
     public function cleanCache()
     {
-        $cache_path = $this->getCacheConfigItem('cache_path');
+        $cache_path = $this->getCacheConfigItem('path', 'file', 'cache_hosts');
+        $cache_path = isset($this->baseID)?$cache_path.$this->baseID.'/':$cache_path;
         $this->deleteCachefiles($cache_path, TRUE);
     }
 
@@ -304,6 +308,11 @@ class XCache_file extends XCache implements XCache_interface
     public function getInstance()
     {
         return TRUE;
+    }
+
+    public function setOptions($options)
+    {
+        $this->baseID = $options->BASEID;
     }
 
     // ------------------------------------------------------------------------

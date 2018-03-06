@@ -17,7 +17,7 @@ trait XCacheDriver
 
     public $xcacheClass = null;
 
-    public function xCachePass($confPath = '')
+    public function xCachePass($confPath = '', $baseID ='')
     {
         if (is_null($this->xcacheClass)) {
 
@@ -29,7 +29,13 @@ trait XCacheDriver
                     $confPath = dirname($rc->getFileName());
                 }
             }
-            $this->xcacheClass = new XCache($confPath);
+            if ($baseID == '') {
+                if (defined("XCACHE_BASEID")) {
+                    $baseID = XCACHE_BASEID;
+                }
+            }
+            
+            $this->xcacheClass = new XCache($confPath, $baseID);
         }
         return $this;
     }
@@ -71,6 +77,10 @@ trait XCacheDriver
             if (($result = $this->xcacheClass->readCache('cache_methods', get_class($this) . $methodName, $ID)) === FALSE) {
                 $result = call_user_func_array(array(&$this, $methodName), $arguments);
                 $this->xcacheClass->writeCache('cache_methods', get_class($this) . $methodName, $ID, $result);
+                if (function_exists('profiler_log')) profiler_log('CACHE',"Cache SET: ".get_class($this) . $methodName);
+            }
+            else {
+                if (function_exists('profiler_log')) profiler_log('CACHE',"Cache GET: ".get_class($this) . $methodName);
             }
             return $result;
         } else {
