@@ -14,6 +14,8 @@ XCache comes with this drivers:
   - MongoDB
   - Apc
   - Redis
+
+## New: Added XCACHE_BASEID to allow separated cache on same source code
   
 ## Install
 
@@ -201,6 +203,12 @@ define("XCACHE_CONFPATH",'/var/www/myApp/conf'); // Wherever is the xcacheconf.j
 class myClass
 {
     use XCacheDriver;  // Include this line after class definition
+    public function __construct()
+    {
+        // This makes the magic happen
+        $this->xCachePass();
+    }
+
     public function _myMethod($params)   // Add a single '_' before the name of the method
     {
         .
