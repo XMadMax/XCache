@@ -10,7 +10,7 @@
  * @category    	Cache
  * @author        	Xavier Perez
  * @license             MIT License (MIT) : http://opensource.org/licenses/MIT
- * @version		3.0.3
+ * @version		3.0.5003
  */
 trait XCacheDriver
 {

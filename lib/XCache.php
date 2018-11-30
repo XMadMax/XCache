@@ -8,7 +8,7 @@
  * @category    	Cache
  * @author        	Xavier Perez
  * @license             MIT License (MIT) : http://opensource.org/licenses/MIT
- * @version		3.0.4
+ * @version		3.0.5003
  */
 if (class_exists('XCache')) {
     return;
