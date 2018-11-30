@@ -8,7 +8,7 @@
  * @category    	Cache
  * @author        	Xavier Perez
  * @license             MIT License (MIT) : http://opensource.org/licenses/MIT
- * @version		3.0.3
+ * @version		3.0.4
  */
 if (class_exists('XCache')) {
     return;
@@ -55,9 +55,9 @@ class XCache
 
     /**
      * getCacheIsAvailable
-     * 
+     *
      * get Avaliability of cache for a complete cache page (index.php)
-     * 
+     *
      * @param type $direct
      * @return boolean
      */
@@ -89,9 +89,9 @@ class XCache
 
     /**
      * getCacheConfigFile
-     * 
+     *
      * get cache config file params
-     * 
+     *
      */
     public function getCacheConfigFile($filepath = '', $force = false)
     {
@@ -123,9 +123,9 @@ class XCache
 
     /**
      * getCacheConfigItem
-     * 
+     *
      * get an specific item in cache config
-     * 
+     *
      * @param varchar $item
      * @param varchar $index
      * @return varchar
@@ -164,11 +164,11 @@ class XCache
     /**
      * checkCache
      * Check if cache exists and it's valid
-     * 
+     *
      * @param string $type Cache type
      * @param string $name Cache module
      * @param string $ID  Cache ID
-     * @return string 
+     * @return string
      */
     public function checkCache($type, $name, $ID)
     {
@@ -177,9 +177,9 @@ class XCache
 
     /**
      * deleteCache
-     * 
+     *
      * delete a cache item or group
-     * 
+     *
      * @param type $type
      * @param type $name
      * @param type $ID
@@ -187,14 +187,19 @@ class XCache
      */
     public function deleteCache($type, $name = '', $ID = '')
     {
+        if (is_array($ID) || is_object($ID)) {
+            $ID = $name . '|' . md5(json_encode(serialize($ID)));
+        } elseif (is_string($ID||'')) {
+            $ID = $name . '|' . md5(json_encode(seriealize(array($ID))));
+        }
         return $this->{$this->_adapter}->deleteCache($type, $name, $ID);
     }
 
     /**
      * cleanCache
-     * 
+     *
      * Clean all files or references
-     * 
+     *
      * @return type
      */
     public function cleanCache()
@@ -204,12 +209,12 @@ class XCache
 
     /**
      * Read cache
-     * 
+     *
      * @param string $type Cache type
      * @param string $name Cache module
      * @param string $ID  Cache ID
      * @param boolean $onlyCheck Only check if cache it's valid
-     * @return string 
+     * @return string
      */
     public function readCache($type, $name, $ID, $onlyCheck = FALSE)
     {
@@ -224,7 +229,7 @@ class XCache
     }
 
     /** incCache
-     * 
+     *
      * Increment a cache value
      * @param type $type
      * @param type $name
@@ -247,9 +252,9 @@ class XCache
 
     /**
      * getCacheItemExpiration
-     * 
+     *
      * get TTL for an ID and group
-     * 
+     *
      * @param type $type
      * @param type $name
      * @param type $originalID
@@ -281,13 +286,13 @@ class XCache
 
     /**
      * Write cache
-     * 
+     *
      * @param string $type Cache type
      * @param string $name Cache module
      * @param string $ID Cache ID
      * @param string $output Ouput to save
      * @param string $depID Dependency ID
-     * @return string 
+     * @return string
      */
     public function writeCache($type, $name, $ID, $output, $depID = "")
     {
@@ -310,9 +315,9 @@ class XCache
 
     /**
      * setCacheHeaders
-     * 
+     *
      * Set cache-control header for a specific page
-     * 
+     *
      * @test cache_pages,regexp,878787897897
      * @param type CacheGroup
      * @param string Cachesubgroup
@@ -439,11 +444,11 @@ class XCache
         return $support[$driver];
     }
 
-    /** enableCache 
-     * 
+    /** enableCache
+     *
      * Set cache for or whatever where are located.
      * Put writeAndFlushCache at end of ppocess
-     * 
+     *
      * @param varchar $type
      * @param varchar $name
      */
@@ -470,10 +475,10 @@ class XCache
 
     /**
      * enableCache view
-     * 
+     *
      * Enable cache inside a view.
      * End with writeAndFlushCacheView
-     * 
+     *
      * @param varchar $type
      * @param varchar $name
      */
@@ -559,12 +564,12 @@ class XCache
 
     /**
      * getXCInstance
-     * 
+     *
      * Return current intance of XCache
-     * 
+     *
      * @return object
      */
-    static public function getXCInstance()
+    static public function getXCInstance($debug=false)
     {
         if (!isset(self::$xcinstance))
             self::$xcinstance = new self;
@@ -606,7 +611,7 @@ class XCache
 
     /**
      * logMessage
-     * 
+     *
      * Define your own message function 'log_message' to include it in your framework
      * @param varchar $type
      * @param varchar $msg
@@ -624,7 +629,7 @@ class XCache
 
     /**
      * setOptions
-     * 
+     *
      * Send options to an adapter/driver
      * @param type $options
      * @return boolean
