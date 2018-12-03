@@ -8,7 +8,7 @@
  * @category    	Cache
  * @author        	Xavier Perez
  * @license             MIT License (MIT) : http://opensource.org/licenses/MIT
- * @version		3.0.5003
+ * @version		3.0.5005
  */
 if (class_exists('XCache')) {
     return;
@@ -189,8 +189,8 @@ class XCache
     {
         if (is_array($ID) || is_object($ID)) {
             $ID = $name . '|' . md5(json_encode(serialize($ID)));
-        } elseif (is_string($ID||'')) {
-            $ID = $name . '|' . md5(json_encode(seriealize(array($ID))));
+        } else {
+            $ID = $name . '|' . md5(json_encode(serialize(array($ID))));
         }
         return $this->{$this->_adapter}->deleteCache($type, $name, $ID);
     }
