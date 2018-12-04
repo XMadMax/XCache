@@ -10,15 +10,16 @@
  * @category    	Cache
  * @author        	Xavier Perez
  * @license             MIT License (MIT) : http://opensource.org/licenses/MIT
- * @version		3.0.5003
+ * @version		3.0.5006
  */
 trait XCacheDriver
 {
 
     public $xcacheClass = null;
     public $xcacheSection = 'cache_methods';
-    
-    public function xCachePass($xcacheSection = 'cache_methods')
+    protected $debug = false;
+
+    public function xCachePass($xcacheSection = 'cache_methods', $debugMode = false)
     {
         if (is_null($this->xcacheClass)) {
 
@@ -33,7 +34,8 @@ trait XCacheDriver
             } else {
                 $baseID = '';
             }
-            
+            $this->debug = $debugMode!=false?$debugMode:(defined('DEBUG')?DEBUG:false);
+
             $this->xcacheClass = new XCache($confPath, $baseID);
             $this->xcacheSection = $xcacheSection;
         }
@@ -58,7 +60,7 @@ trait XCacheDriver
 
     /**
      * Call any method inside common module, else call $APP method
-     * 
+     *
      * @param type $name
      * @param array $arguments
      * @return type
@@ -77,10 +79,10 @@ trait XCacheDriver
             if (($result = $this->xcacheClass->readCache($this->xcacheSection, get_class($this) . $methodName, $ID)) === FALSE) {
                 $result = call_user_func_array(array(&$this, $methodName), $arguments);
                 $this->xcacheClass->writeCache($this->xcacheSection, get_class($this) . $methodName, $ID, $result);
-                if (function_exists('profiler_log')) profiler_log('CACHE',"Cache SET: ".get_class($this) . $methodName);
+                if ($this->debug && function_exists('profiler_log')) profiler_log('CACHE',"Cache SET: ".get_class($this) . $methodName);
             }
             else {
-                if (function_exists('profiler_log')) profiler_log('CACHE',"Cache GET: ".get_class($this) . $methodName);
+                if ($this->debug && function_exists('profiler_log')) profiler_log('CACHE',"Cache GET: ".get_class($this) . $methodName);
             }
             return $result;
         } else {

@@ -23,12 +23,12 @@ class XCache_file extends XCache implements XCache_interface
 
     /**
      * Read cache
-     * 
+     *
      * @param string $type Cache type
      * @param string $name Cache module
      * @param string $ID  Cache ID
      * @param boolean $onlyCheck Only cjeck if cache it's valid
-     * @return string 
+     * @return string
      */
     public function readCache($type, $name, $ID, $onlyCheck = FALSE)
     {
@@ -213,11 +213,13 @@ class XCache_file extends XCache implements XCache_interface
     {
         $cache_path = $this->getCacheConfigItem('path', 'file', 'cache_hosts');
         $cache_path = isset($this->baseID)?$cache_path.$this->baseID.'/':$cache_path;
-        $cache_dir_path = $cache_path . $type . '/' . $name . '/' . substr(md5($ID), 0, 2) . '/' . substr(md5($ID), 2, 2) . '/' . substr(md5($ID), 4, 2) . '/' . substr(md5($ID), 6, 2) . '/';
-        if ($ID == '')
-            $cache_dir_path = $cache_path . $type . '/' . $name . '/';
-        if ($name == '')
+        $cache_dir_path = $cache_path . $type . '/' . $name . '/';
+        if (trim($ID) != '') {
+            $cache_dir_path = $cache_path . $type . '/' . $name . '/' . substr(md5($ID), 0, 2) . '/' . substr(md5($ID), 2, 2) . '/' . substr(md5($ID), 4, 2) . '/' . substr(md5($ID), 6, 2) . '/';
+        }
+        if ($name == '') {
             $cache_dir_path = $cache_path . $type . '/';
+        }
 
         $this->deleteCachefiles($cache_dir_path, TRUE);
     }
