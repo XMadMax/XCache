@@ -1,6 +1,6 @@
 # XCache
 XCache allows to cache everything, html, json, views, objects, results from a Class->method, also can put a Cache-Control headers to be used for CDN's or proxies.
-v.3.0.5006
+v.3.0.5007
 
 Three methods allowed:
   - As a trait, with inheritance of all methods and automatic method cache.
