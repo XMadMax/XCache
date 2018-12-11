@@ -10,7 +10,7 @@
  * @category    	Cache
  * @author        	Xavier Perez
  * @license             MIT License (MIT) : http://opensource.org/licenses/MIT
- * @version		3.0.5006
+ * @version		3.0.5007
  */
 trait XCacheDriver
 {
@@ -69,7 +69,7 @@ trait XCacheDriver
     public function __call($name, array $arguments)
     {
         if (method_exists($this, '_' . $name)) {
-            $ID = get_class($this) . '_' . $name . '|' . md5(json_encode(serialize($arguments)));
+            $ID = md5(json_encode(serialize($arguments)));
 
             if (is_null($this->xcacheClass)) {
                 $this->xcachePass();
@@ -78,7 +78,7 @@ trait XCacheDriver
             $methodName = '_' . $name;
             if (($result = $this->xcacheClass->readCache($this->xcacheSection, get_class($this) . $methodName, $ID)) === FALSE) {
                 $result = call_user_func_array(array(&$this, $methodName), $arguments);
-                $this->xcacheClass->writeCache($this->xcacheSection, get_class($this) . $methodName, $ID, $result);
+                    $this->xcacheClass->writeCache($this->xcacheSection, get_class($this) . $methodName, $ID, $result);
                 if ($this->debug && function_exists('profiler_log')) profiler_log('CACHE',"Cache SET: ".get_class($this) . $methodName);
             }
             else {
